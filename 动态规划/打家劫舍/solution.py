@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 """
 Created on Apr 13
@@ -92,5 +91,4 @@ class Solution:
                 temp_money = money[i-2] + nums[i]
                 money.append(max(money[i-1], temp_money))
                 i += 1
->>>>>>> 动态规划题目
             return money[-1]
