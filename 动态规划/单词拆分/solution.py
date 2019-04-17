@@ -45,7 +45,7 @@ s = "leetcode", wordDict = ["leet", "code"]
 返回p[-1]
 '''
 
-
+# 动态规划
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         p = [False] * (len(s)+1)
@@ -57,3 +57,47 @@ class Solution:
                     p[i] = True
                     break
         return p[-1]
+		
+# 字典树，还未通过
+class Node:
+    def __init__(self):
+        self.next = {}
+        self.end = False
+        
+class Dict_tree:
+    def __init__(self, word_list):
+        self.root = Node()
+        for word in word_list:
+            temp_node = self.root
+            for value in word:
+                try:
+                    temp_node = temp_node.next[value]
+                except KeyError:
+                    temp_node.next[value] = Node()
+                    temp_node = temp_node.next[value]
+            temp_node.end = True
+        
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        dict_root = Dict_tree(wordDict).root
+        p = [("", s)]
+        temp_node = dict_root
+        while len(p) != 0 and p[0][1] != "":
+            s1, s2 = p.pop(0)
+            for i in range(len(s2)):
+                value = s[i]
+                try:
+                    temp_node = temp_node.next[value]
+                    if temp_node == True:
+                        s1 = s[:i+1]
+                        if i+1 == len(s):
+                            s2 = ""
+                        else:
+                            s2 = s[i+1:]
+                        p.append((s1, s2))
+                except KeyError:
+                    break
+        if len(p) != 0:
+            return True
+        else:
+            return False
