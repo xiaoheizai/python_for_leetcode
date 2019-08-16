@@ -63,3 +63,29 @@ class Solution(object):
         candidates.sort()
         self.helper(candidates, 0, lens, path, res, target)
         return res
+		
+# 动态规划
+class Solution(object):     
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        temp_dict = {}
+        candidates.sort()
+        for i in range(1, target+1):
+            temp_dict[i] = []
+            for j in candidates:
+                if i == j:
+                    temp_dict[i].append([i])
+                elif i > j:
+                    for value in temp_dict[i-j]:
+                        temp = value[:]
+                        temp.append(j)
+                        temp.sort()
+                        if temp not in temp_dict[i]:
+                            temp_dict[i].append(temp)
+                else:
+                    break
+        return temp_dict[target]
