@@ -63,3 +63,37 @@ class Solution(object):
         self.helper(root, 0)
         return self.levels
         
+		
+# 非递归
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+from collections import deque
+
+class Solution(object):       
+    def levelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        if root == None:
+            return []
+        levels = []
+        queue = deque([root])
+        level = 0
+        while queue:
+            levels.append([])
+            level_length = len(queue)
+            for _ in range(level_length):
+                node = queue.popleft()
+                levels[level].append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            level += 1
+        return levels
